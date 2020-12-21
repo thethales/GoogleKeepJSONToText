@@ -1,0 +1,22 @@
+{
+    "color": "DEFAULT",
+    "isTrashed": false,
+    "isPinned": false,
+    "isArchived": true,
+    "listContent": [{
+        "text": "Laundry",
+        "isChecked": false
+    }, {
+        "text": "Groceries",
+        "isChecked": true
+    }, {
+        "text": "Clean the windows",
+        "isChecked": true
+    }],
+    "title": "ToDo List",
+    "labels": [{
+        "name": "todo"
+    },{
+        "name": "lists"
+    }]
+}

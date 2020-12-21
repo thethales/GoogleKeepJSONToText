@@ -110,7 +110,8 @@ def main():
     print('Total files: ', result_metrics['processed_files'] + result_metrics['skipped_files'], '\n' )
     print('Processed files: ', result_metrics['processed_files'],  '\n' )
     print('Skipped files: ', result_metrics['skipped_files'],  '\n' )
-
+    print('Press any key to exit ...')
+    a = input()
 
 if __name__ == "__main__":
     main()

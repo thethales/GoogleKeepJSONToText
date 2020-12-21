@@ -71,9 +71,11 @@ def convertFile(file_path:str, output_folder:str):
                     f.write('#' + label['name'])
             
             f.close()
-            
+        return True
+
     except Exception as e:
         print("Unable to process file: " , file_name, "Error: ", str(e)) 
+        return False
 
 
 
@@ -81,17 +83,29 @@ def convertFile(file_path:str, output_folder:str):
 def main():
     root = os.getcwd()
     output_folder = os.path.join(root,'converted')
+    result_metrics = {
+        'processed_files': 0,
+        'skipped_files':0
+    }
 
 
     createOutputFolder(output_folder)
 
-    print('Processing files')
+    print('Processing files...')
 
-    for dirs in os.listdir(root):
+    google_keep_files = os.listdir(root)
+   
+    for dirs in google_keep_files:
         if '.json' in dirs:
-            convertFile(os.path.join(root,dirs),output_folder)
+            if convertFile(os.path.join(root,dirs),output_folder):
+                result_metrics['processed_files'] += 1
+            else:
+                result_metrics['skipped_files'] += 1
 
-    print('Done. Check the output folder for the processed files: ', output_folder)
+    print('Done.', '\n')
+    print('Total files: ', result_metrics['processed_files'] + result_metrics['skipped_files'], '\n' )
+    print('Processed files: ', result_metrics['processed_files'],  '\n' )
+    print('Skipped files: ', result_metrics['skipped_files'],  '\n' )
 
 
 if __name__ == "__main__":

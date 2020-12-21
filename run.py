@@ -2,19 +2,8 @@ import os
 import json
 import sys
 import time
+import datetime
 
-
-
-
-def usecTimeStampToText(timeStamp):
-    try:
-        
-        dt_object = time.strftime("%D %H:%M", time.localtime(int(timeStamp)))
-        
-        return 'dt_object'
-    except: 
-        return ''
-    
 
 
 def createOutputFolder(output_folder:str):
@@ -34,7 +23,7 @@ def convertFile(file_path:str, output_folder:str):
     output_file_path = os.path.join(output_folder,os.path.splitext(file_name)[0]+'.txt')
     
     try:
-        with open(file_path) as f:
+        with open(file_path, encoding='UTF8') as f:
             data = json.load(f)
 
             f = open(output_file_path, "w")
@@ -59,14 +48,14 @@ def convertFile(file_path:str, output_folder:str):
             f.write("---")
             f.write("\n")
 
-            #Datetime
-            date_time = usecTimeStampToText(data['userEditedTimestampUsec'])
-            if date_time != '':
-                f.write('Last edited in ' + date_time)
+            #FileName
+            f.write("\n")
+            f.write('File Title: ' + os.path.splitext(file_name)[0])
 
             #Labels -> Are converted to hashtags
+            f.write("\n")
+            f.write('#GoogleKeep ')
             if 'labels' in data:
-                f.write("\n")
                 for label in data['labels']:
                     f.write('#' + label['name'])
             

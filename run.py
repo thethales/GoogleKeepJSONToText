@@ -82,6 +82,10 @@ def convertFile(file_path:str, output_folder:str):
 
 def main():
     root = os.getcwd()
+
+    if os.path.isdir(os.path.join(root,'Keep')):
+        root = os.path.join(root,'Keep')
+    
     output_folder = os.path.join(root,'converted')
     result_metrics = {
         'processed_files': 0,

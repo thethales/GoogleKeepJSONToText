@@ -1,17 +1,20 @@
 import os
 import json
 import sys
-
-from datetime import datetime
-
+import time
 
 
-def usecTimeStampToText(timeStamp:int):
+
+
+def usecTimeStampToText(timeStamp):
     try:
-        dt_object = datetime.fromtimestamp(timestamp)
+        
+        dt_object = time.strftime("%D %H:%M", time.localtime(int(timeStamp)))
+        
+        return 'dt_object'
     except: 
-        dt_object = ''
-    return str(dt_object)
+        return ''
+    
 
 
 def createOutputFolder(output_folder:str):
@@ -35,12 +38,38 @@ def convertFile(file_path:str, output_folder:str):
             data = json.load(f)
 
             f = open(output_file_path, "w")
+            
             f.write(data['title'])
             f.write("\n")
-            f.write('Last edited in ')
-            f.write(usecTimeStampToText(data['userEditedTimestampUsec']))
             f.write("\n")
-            f.write(data['textContent'])
+
+            #Google Keep note is of the type plain text
+            if 'textContent' in data:
+                f.write(data['textContent'])
+
+            #Google Keep note is of the type list text
+            if 'listContent' in data:
+                f.write("\n")
+                for item in data['listContent']:
+                    f.write(" - " + item['text'])
+                    f.write("\n")
+
+            #Footer
+            f.write("\n")
+            f.write("---")
+            f.write("\n")
+
+            #Datetime
+            date_time = usecTimeStampToText(data['userEditedTimestampUsec'])
+            if date_time != '':
+                f.write('Last edited in ' + date_time)
+
+            #Labels -> Are converted to hashtags
+            if 'labels' in data:
+                f.write("\n")
+                for label in data['labels']:
+                    f.write('#' + label['name'])
+            
             f.close()
             
     except Exception as e:

@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # Custom
-.json
-.txt
+*.json
+*.txt
